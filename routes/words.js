@@ -44,7 +44,7 @@ router.put('/:tableName/:id', async (req, res) => {
     const id = req.params.id 
     const changes = req.body
     try {
-        const findId = await Words.findById(tableName, id)
+    const findId = await Words.findById(tableName, id)
 
     if(!findId) {
     res.status(404).json({
@@ -60,4 +60,20 @@ router.put('/:tableName/:id', async (req, res) => {
 })
 
 // DELETE 
-
+router.get('/:tableName/:id', async (req, res) => {
+    const tableName = req.params.tableName;
+    const id = req.params.id 
+    try {
+    const findId = await Words.findById(tableName, id)
+    if(!findId) {
+        res.status(404).json({
+        message: "ID could not be found"
+    })
+    } else {
+        res.status(200).json({message: 
+        "Successfully deleted!"}) 
+    }
+} catch {
+    res.status(500).json({error})
+}
+})
