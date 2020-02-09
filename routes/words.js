@@ -17,7 +17,7 @@ router.get('/:tableName/:id', async (req, res) => {
         }
     }
     catch {
-        res.status(500).json({message: 'There was an error.'})
+        res.status(500).json({error})
     }
 })
 
@@ -25,7 +25,17 @@ router.get('/:tableName/:id', async (req, res) => {
 
 
 // POST 
-
+router.post('/:tableName', async (req, res) => {
+    try {
+        const word = req.body
+        const tableName = req.params.tableName
+        const newWord = await Words.add(word, tableName) 
+        res.status(201).json(newWord) 
+    }
+    catch {
+        res.status(500).json({error})
+    }
+})
 
 // UPDATE 
 
