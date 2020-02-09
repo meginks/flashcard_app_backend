@@ -26,9 +26,10 @@ router.get('/:tableName/:id', async (req, res) => {
 
 // POST 
 router.post('/:tableName', async (req, res) => {
+    const word = req.body
+    const tableName = req.params.tableName
+
     try {
-        const word = req.body
-        const tableName = req.params.tableName
         const newWord = await Words.add(word, tableName) 
         res.status(201).json(newWord) 
     }
@@ -38,7 +39,25 @@ router.post('/:tableName', async (req, res) => {
 })
 
 // UPDATE 
+router.put('/:tableName/:id', async (req, res) => {
+    const tableName = req.params.tableName;
+    const id = req.params.id 
+    const changes = req.body
+    try {
+        const findId = await Words.findById(tableName, id)
 
+    if(!findId) {
+    res.status(404).json({
+        message: "ID could not be found"
+    })
+    } else {
+    const updatedWord = await Words.update(changes, id, tableName)
+    res.status(200).json(updatedWord)
+    }
+    } catch (error) {
+    res.status(500).json({error})
+    }
+})
 
 // DELETE 
 
