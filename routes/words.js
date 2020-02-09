@@ -23,6 +23,22 @@ router.get('/:tableName/:id', async (req, res) => {
 
 // GET ALL 
 
+router.get("/:tableName", async (req, res) => {
+    try {
+        const words = await Words.findAll(req.params.tableName);
+        if (!words) {
+            res.status(404).json({
+                message: "Could not find that tableName"
+            })
+        }
+        else {
+            res.status(200).json(words)
+        }
+    } catch {
+        res.status(500).json({error})
+    }
+})
+
 
 // POST 
 router.post('/:tableName', async (req, res) => {
